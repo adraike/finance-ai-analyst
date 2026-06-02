@@ -1,0 +1,1450 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "finance-ai-analyst",
+    "languages": [
+      "csv",
+      "markdown",
+      "python",
+      "txt"
+    ],
+    "frameworks": [
+      "Ollama",
+      "Plotly",
+      "scikit-learn",
+      "Streamlit"
+    ],
+    "description": "A privacy-first financial analysis app that runs entirely on the user's local machine, auto-detecting CSV formats from different banks, classifying transactions into spending categories, detecting anomalies using machine learning (scikit-learn Isolation Forest), and generating natural language insights via a local LLM (Ollama).",
+    "analyzedAt": "2026-06-01T00:45:53.117Z",
+    "gitCommitHash": "a8106daa230e79d82b02aa2e7737ef7f669ad0bf"
+  },
+  "nodes": [
+    {
+      "id": "file:app.py",
+      "type": "file",
+      "name": "app.py",
+      "filePath": "app.py",
+      "summary": "Main Streamlit entry point that orchestrates the full privacy-first finance analysis UI, wiring together CSV upload, ML classification, anomaly detection, interactive visualizations, and local LLM insights via Ollama.",
+      "tags": [
+        "entry-point",
+        "ui",
+        "streamlit",
+        "orchestration",
+        "component"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:app.py:init_session_state",
+      "type": "function",
+      "name": "init_session_state",
+      "filePath": "app.py",
+      "lineRange": [
+        73,
+        83
+      ],
+      "summary": "Initializes Streamlit session state variables, including processed data, column mapping, preprocessing report, and the FinancialAnalysisLLM instance.",
+      "tags": [
+        "utility",
+        "session",
+        "initialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:app.py:render_sidebar",
+      "type": "function",
+      "name": "render_sidebar",
+      "filePath": "app.py",
+      "lineRange": [
+        95,
+        139
+      ],
+      "summary": "Renders the Streamlit sidebar showing app info, Ollama LLM connection status, and the list of supported bank CSV formats.",
+      "tags": [
+        "component",
+        "ui",
+        "sidebar"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.py:render_upload_section",
+      "type": "function",
+      "name": "render_upload_section",
+      "filePath": "app.py",
+      "lineRange": [
+        142,
+        178
+      ],
+      "summary": "Handles CSV file upload, triggers the preprocessing pipeline and ML transaction analysis, stores results in session state, and displays a preprocessing report.",
+      "tags": [
+        "component",
+        "file-upload",
+        "data-ingestion"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.py:render_metrics",
+      "type": "function",
+      "name": "render_metrics",
+      "filePath": "app.py",
+      "lineRange": [
+        181,
+        211
+      ],
+      "summary": "Renders the key financial overview metrics panel showing total income, expenses, net balance, transaction count, and anomaly count.",
+      "tags": [
+        "component",
+        "metrics",
+        "dashboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.py:render_visualizations",
+      "type": "function",
+      "name": "render_visualizations",
+      "filePath": "app.py",
+      "lineRange": [
+        214,
+        292
+      ],
+      "summary": "Renders a tabbed visualization dashboard covering spending by category, spending over time, income vs expenses, anomaly timeline, and weekly/trend patterns, with inline LLM anomaly explanations.",
+      "tags": [
+        "component",
+        "visualization",
+        "dashboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:app.py:render_ai_insights",
+      "type": "function",
+      "name": "render_ai_insights",
+      "filePath": "app.py",
+      "lineRange": [
+        295,
+        358
+      ],
+      "summary": "Renders the AI insights panel, streaming LLM-generated overall financial analysis, category deep dives, and free-form question answering via Ollama.",
+      "tags": [
+        "component",
+        "llm",
+        "ai-insights"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.py:render_data_explorer",
+      "type": "function",
+      "name": "render_data_explorer",
+      "filePath": "app.py",
+      "lineRange": [
+        361,
+        411
+      ],
+      "summary": "Renders a filterable transaction table with category, type, and anomaly filters, plus a CSV download button for the filtered results.",
+      "tags": [
+        "component",
+        "data-explorer",
+        "filtering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:app.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "app.py",
+      "lineRange": [
+        414,
+        462
+      ],
+      "summary": "Top-level application entry point that initializes session state and sequentially renders all UI sections, showing an instructional placeholder when no data has been uploaded.",
+      "tags": [
+        "entry-point",
+        "orchestration",
+        "ui"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:ml_models.py",
+      "type": "file",
+      "name": "ml_models.py",
+      "filePath": "ml_models.py",
+      "summary": "Implements a hybrid transaction classifier (rule-based keyword matching) and an ensemble anomaly detector (Isolation Forest plus statistical Z-score and category thresholds), plus convenience aggregation functions for category and anomaly summaries.",
+      "tags": [
+        "service",
+        "machine-learning",
+        "classification",
+        "anomaly-detection"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses scikit-learn IsolationForest with StandardScaler preprocessing; ensemble approach combines ML-based and statistical signals for robustness on small datasets."
+    },
+    {
+      "id": "class:ml_models.py:TransactionClassifier",
+      "type": "class",
+      "name": "TransactionClassifier",
+      "filePath": "ml_models.py",
+      "lineRange": [
+        39,
+        107
+      ],
+      "summary": "Hybrid classifier that pre-compiles category keyword regex patterns and scores transactions by description match confidence, falling back to amount-based heuristics for unmatched transactions.",
+      "tags": [
+        "classification",
+        "machine-learning",
+        "rule-based"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:ml_models.py:AnomalyDetector",
+      "type": "class",
+      "name": "AnomalyDetector",
+      "filePath": "ml_models.py",
+      "lineRange": [
+        110,
+        261
+      ],
+      "summary": "Ensemble anomaly detector that fits an Isolation Forest plus computes global and per-category statistical baselines, then scores each transaction by combining ML predictions, Z-score magnitude, and category-specific 95th-percentile thresholds.",
+      "tags": [
+        "anomaly-detection",
+        "machine-learning",
+        "ensemble"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:ml_models.py:analyze_transactions",
+      "type": "function",
+      "name": "analyze_transactions",
+      "filePath": "ml_models.py",
+      "lineRange": [
+        264,
+        280
+      ],
+      "summary": "Primary analysis pipeline entry point that instantiates and runs TransactionClassifier followed by AnomalyDetector on a transactions DataFrame, returning the enriched DataFrame.",
+      "tags": [
+        "service",
+        "pipeline",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:ml_models.py:get_category_summary",
+      "type": "function",
+      "name": "get_category_summary",
+      "filePath": "ml_models.py",
+      "lineRange": [
+        283,
+        302
+      ],
+      "summary": "Aggregates expense transactions by predicted category, returning total spent, average transaction size, count, and anomaly count per category sorted by spend.",
+      "tags": [
+        "utility",
+        "aggregation",
+        "reporting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:ml_models.py:get_anomaly_summary",
+      "type": "function",
+      "name": "get_anomaly_summary",
+      "filePath": "ml_models.py",
+      "lineRange": [
+        305,
+        317
+      ],
+      "summary": "Filters the transaction DataFrame to anomalous rows and returns a sorted summary of date, description, amount, category, anomaly score, and reasons.",
+      "tags": [
+        "utility",
+        "anomaly-detection",
+        "reporting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:preprocessing.py",
+      "type": "file",
+      "name": "preprocessing.py",
+      "filePath": "preprocessing.py",
+      "summary": "Provides the CSV preprocessing pipeline for bank statements: auto-detecting column mappings across different bank formats, normalizing transactions to a standard schema, and extracting temporal and amount-based ML features.",
+      "tags": [
+        "service",
+        "data-pipeline",
+        "feature-extraction",
+        "etl"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses dateutil for flexible date parsing and handles multiple currency/accounting formats (parentheses negatives, currency symbols, thousand separators) in _parse_amount."
+    },
+    {
+      "id": "function:preprocessing.py:detect_column_mapping",
+      "type": "function",
+      "name": "detect_column_mapping",
+      "filePath": "preprocessing.py",
+      "lineRange": [
+        58,
+        95
+      ],
+      "summary": "Heuristically maps arbitrary CSV column names to the standard schema fields (date, description, amount, debit, credit, balance, category) using regex patterns, with fallbacks for date-like and high-variety text columns.",
+      "tags": [
+        "utility",
+        "heuristics",
+        "schema-detection"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:preprocessing.py:normalize_transactions",
+      "type": "function",
+      "name": "normalize_transactions",
+      "filePath": "preprocessing.py",
+      "lineRange": [
+        137,
+        192
+      ],
+      "summary": "Converts a raw bank DataFrame to the standard schema with parsed dates, cleaned descriptions, and unified signed amounts (supporting single amount columns or separate debit/credit columns).",
+      "tags": [
+        "utility",
+        "normalization",
+        "data-pipeline"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:preprocessing.py:extract_features",
+      "type": "function",
+      "name": "extract_features",
+      "filePath": "preprocessing.py",
+      "lineRange": [
+        195,
+        220
+      ],
+      "summary": "Derives temporal features (day of week, month, weekend flag, week of year) and transaction characteristics (absolute amount, expense/income flags, description length/word count) for downstream ML models.",
+      "tags": [
+        "feature-extraction",
+        "machine-learning",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:preprocessing.py:preprocess_pipeline",
+      "type": "function",
+      "name": "preprocess_pipeline",
+      "filePath": "preprocessing.py",
+      "lineRange": [
+        223,
+        262
+      ],
+      "summary": "Top-level preprocessing entry point that reads a CSV upload, detects column mapping, normalizes transactions, extracts ML features, and returns the enriched DataFrame alongside a human-readable preprocessing report.",
+      "tags": [
+        "entry-point",
+        "pipeline",
+        "etl"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:config.py",
+      "type": "file",
+      "name": "config.py",
+      "filePath": "config.py",
+      "summary": "Central configuration module defining Ollama LLM connection settings, spending category keyword lists for transaction classification, anomaly detection thresholds, and chart display constants.",
+      "tags": [
+        "configuration",
+        "constants",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:llm_integration.py",
+      "type": "file",
+      "name": "llm_integration.py",
+      "filePath": "llm_integration.py",
+      "summary": "Provides local LLM integration via Ollama, including an HTTP client with streaming support, prompt-engineering helpers for financial summaries and anomaly explanations, and a high-level FinancialAnalysisLLM facade used by the Streamlit app.",
+      "tags": [
+        "service",
+        "api-handler",
+        "utility"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Uses Python generator functions (yield from) for streaming token delivery to Streamlit's st.write_stream(); the _available cache field avoids repeated network round-trips per session."
+    },
+    {
+      "id": "file:visualizations.py",
+      "type": "file",
+      "name": "visualizations.py",
+      "filePath": "visualizations.py",
+      "summary": "Builds all interactive Plotly figures used in the financial dashboard, covering category breakdowns, time-series spending trends, income-vs-expense comparisons, anomaly timelines, and a weekly spending heatmap.",
+      "tags": [
+        "utility",
+        "component",
+        "data-model"
+      ],
+      "complexity": "complex",
+      "languageNotes": "Relies on Plotly's go.Figure and px convenience API; all chart heights are pulled from config.py to keep visuals consistent across the app."
+    },
+    {
+      "id": "class:llm_integration.py:OllamaClient",
+      "type": "class",
+      "name": "OllamaClient",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        38,
+        135
+      ],
+      "summary": "Low-level HTTP client for the local Ollama REST API, supporting both streaming (line-by-line NDJSON) and synchronous text generation with connection-availability caching.",
+      "tags": [
+        "service",
+        "api-handler"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:llm_integration.py:FinancialAnalysisLLM",
+      "type": "class",
+      "name": "FinancialAnalysisLLM",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        268,
+        317
+      ],
+      "summary": "High-level facade over OllamaClient that assembles domain-specific prompts and exposes streaming generators for overall insights, per-category analysis, anomaly explanations, and free-form financial questions.",
+      "tags": [
+        "service",
+        "api-handler",
+        "factory"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:llm_integration.py:OllamaClient.is_available",
+      "type": "function",
+      "name": "OllamaClient.is_available",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        50,
+        66
+      ],
+      "summary": "Checks whether the Ollama server is running and the configured model is installed, with result caching to avoid repeated network calls.",
+      "tags": [
+        "utility",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:llm_integration.py:OllamaClient.generate",
+      "type": "function",
+      "name": "OllamaClient.generate",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        78,
+        126
+      ],
+      "summary": "Sends a prompt to the Ollama /api/generate endpoint and yields response tokens chunk-by-chunk when streaming, or returns the full text in a single yield when streaming is disabled.",
+      "tags": [
+        "api-handler",
+        "service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:llm_integration.py:create_financial_summary_prompt",
+      "type": "function",
+      "name": "create_financial_summary_prompt",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        138,
+        195
+      ],
+      "summary": "Constructs a structured LLM prompt summarising total income, expenses, per-category spending totals, and detected anomalies, requesting actionable financial insights in return.",
+      "tags": [
+        "utility",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:llm_integration.py:create_category_insight_prompt",
+      "type": "function",
+      "name": "create_category_insight_prompt",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        198,
+        236
+      ],
+      "summary": "Builds a focused prompt for a single spending category, including total, average transaction size, and the 10 most recent transactions, to elicit category-specific optimisation suggestions.",
+      "tags": [
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:llm_integration.py:create_anomaly_explanation_prompt",
+      "type": "function",
+      "name": "create_anomaly_explanation_prompt",
+      "filePath": "llm_integration.py",
+      "lineRange": [
+        239,
+        265
+      ],
+      "summary": "Produces a prompt presenting a single flagged transaction's details and machine-detected reasons to obtain a plain-language explanation and recommended action.",
+      "tags": [
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:visualizations.py:create_spending_by_category_pie",
+      "type": "function",
+      "name": "create_spending_by_category_pie",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        52,
+        91
+      ],
+      "summary": "Returns a Plotly donut chart aggregating expense amounts by predicted spending category with category-consistent colors.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:visualizations.py:create_spending_by_category_bar",
+      "type": "function",
+      "name": "create_spending_by_category_bar",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        94,
+        128
+      ],
+      "summary": "Returns a horizontal Plotly bar chart of spending totals per category, sorted ascending for easy rank comparison.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:visualizations.py:create_spending_over_time",
+      "type": "function",
+      "name": "create_spending_over_time",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        131,
+        189
+      ],
+      "summary": "Generates a line chart of expense amounts aggregated at daily, weekly, or monthly granularity, with an optional polynomial trend line overlaid.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:visualizations.py:create_income_vs_expenses",
+      "type": "function",
+      "name": "create_income_vs_expenses",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        192,
+        258
+      ],
+      "summary": "Builds a grouped bar chart comparing income and expense totals per period, with a net-savings line trace overlaid to show cash-flow direction.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:visualizations.py:create_anomaly_timeline",
+      "type": "function",
+      "name": "create_anomaly_timeline",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        261,
+        322
+      ],
+      "summary": "Creates a scatter-plot timeline that visually differentiates normal transactions from ML-flagged anomalies using distinct marker shapes, colors, and sizes.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:visualizations.py:create_weekly_summary",
+      "type": "function",
+      "name": "create_weekly_summary",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        325,
+        364
+      ],
+      "summary": "Produces a Plotly heatmap (category × day-of-week) to reveal which categories incur the most spending on which days.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:visualizations.py:create_monthly_summary_table",
+      "type": "function",
+      "name": "create_monthly_summary_table",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        367,
+        392
+      ],
+      "summary": "Computes a per-month summary DataFrame with formatted income, expense, net, transaction count, and anomaly count columns for display as a data table.",
+      "tags": [
+        "utility",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:visualizations.py:create_category_trend",
+      "type": "function",
+      "name": "create_category_trend",
+      "filePath": "visualizations.py",
+      "lineRange": [
+        395,
+        427
+      ],
+      "summary": "Returns a monthly bar chart for a single spending category, enabling drill-down trend analysis from the main dashboard.",
+      "tags": [
+        "utility",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:ARTICLE.md",
+      "type": "document",
+      "name": "ARTICLE.md",
+      "filePath": "ARTICLE.md",
+      "summary": "In-depth technical article describing how the finance-ai-analyst was built, covering the data preprocessing pipeline, Isolation Forest anomaly detection, Plotly visualization design, and local LLM integration via Ollama with streaming output. Serves as the primary educational narrative for the project.",
+      "tags": [
+        "documentation",
+        "tutorial",
+        "data-pipeline",
+        "machine-learning",
+        "api-schema"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Project README file — currently empty, serving as a placeholder for project overview documentation.",
+      "tags": [
+        "documentation",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:requirements.txt",
+      "type": "config",
+      "name": "requirements.txt",
+      "filePath": "requirements.txt",
+      "summary": "Python dependency manifest pinning the seven core runtime libraries: Streamlit for the UI, pandas and numpy for data processing, scikit-learn for anomaly detection, Plotly for visualization, requests for Ollama HTTP calls, and python-dateutil for date parsing.",
+      "tags": [
+        "configuration",
+        "dependencies",
+        "build-system",
+        "python"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Uses minimum version constraints (>=) rather than exact pins, balancing reproducibility with flexibility for security patches."
+    },
+    {
+      "id": "file:.understand-anything/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".understand-anything/.understandignore",
+      "summary": "Configuration file for the understand-anything plugin specifying glob patterns to exclude files and directories from analysis. Currently contains only commented-out suggestions for excluding test files.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "analysis-exclusions"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:sample_data/sample_bank_format2.csv:transactions",
+      "type": "table",
+      "name": "transactions",
+      "filePath": "sample_data/sample_bank_format2.csv",
+      "summary": "Alternative bank CSV format sample with columns Transaction Date, Payee, Debit, Credit, and Running Balance, representing 21 January 2024 transactions including deposits, groceries, utilities, dining, and one anomalous large dinner charge used to test the app's anomaly detection.",
+      "tags": [
+        "data",
+        "sample",
+        "bank-statement",
+        "csv"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:sample_data/sample_bank_statement.csv:transactions",
+      "type": "table",
+      "name": "transactions",
+      "filePath": "sample_data/sample_bank_statement.csv",
+      "summary": "Primary bank statement CSV sample with columns Date, Description, Amount, and Balance, covering 73 transactions across January–March 2024 including regular payroll deposits, recurring expenses, and several intentionally anomalous entries (luxury store, overseas merchant, large wire transfer, casino) for testing anomaly detection and spending categorization.",
+      "tags": [
+        "data",
+        "sample",
+        "bank-statement",
+        "csv",
+        "anomaly-detection"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:app.py",
+      "target": "file:config.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:llm_integration.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:ml_models.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:preprocessing.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "file:visualizations.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "file:config.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:init_session_state",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:render_sidebar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:render_upload_section",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:render_metrics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:render_visualizations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:render_ai_insights",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:render_data_explorer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:app.py",
+      "target": "function:app.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "function:app.py:render_upload_section",
+      "target": "function:preprocessing.py:preprocess_pipeline",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_upload_section",
+      "target": "function:ml_models.py:analyze_transactions",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:ml_models.py:get_category_summary",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:ml_models.py:get_anomaly_summary",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_spending_by_category_pie",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_spending_by_category_bar",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_spending_over_time",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_income_vs_expenses",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_anomaly_timeline",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_weekly_summary",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_monthly_summary_table",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:render_visualizations",
+      "target": "function:visualizations.py:create_category_trend",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:app.py:init_session_state",
+      "target": "class:llm_integration.py:FinancialAnalysisLLM",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "class:ml_models.py:TransactionClassifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "class:ml_models.py:AnomalyDetector",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "function:ml_models.py:analyze_transactions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "function:ml_models.py:get_category_summary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "function:ml_models.py:get_anomaly_summary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "class:ml_models.py:TransactionClassifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "class:ml_models.py:AnomalyDetector",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "function:ml_models.py:analyze_transactions",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "function:ml_models.py:get_category_summary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:ml_models.py",
+      "target": "function:ml_models.py:get_anomaly_summary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ml_models.py:analyze_transactions",
+      "target": "class:ml_models.py:TransactionClassifier",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:ml_models.py:analyze_transactions",
+      "target": "class:ml_models.py:AnomalyDetector",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:preprocessing.py",
+      "target": "function:preprocessing.py:detect_column_mapping",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:preprocessing.py",
+      "target": "function:preprocessing.py:normalize_transactions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:preprocessing.py",
+      "target": "function:preprocessing.py:extract_features",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:preprocessing.py",
+      "target": "function:preprocessing.py:preprocess_pipeline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:preprocessing.py",
+      "target": "function:preprocessing.py:detect_column_mapping",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:preprocessing.py",
+      "target": "function:preprocessing.py:preprocess_pipeline",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:preprocessing.py:preprocess_pipeline",
+      "target": "function:preprocessing.py:detect_column_mapping",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:preprocessing.py:preprocess_pipeline",
+      "target": "function:preprocessing.py:normalize_transactions",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "function:preprocessing.py:preprocess_pipeline",
+      "target": "function:preprocessing.py:extract_features",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "file:config.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "file:config.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "class:llm_integration.py:OllamaClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "class:llm_integration.py:FinancialAnalysisLLM",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "function:llm_integration.py:create_financial_summary_prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "function:llm_integration.py:create_category_insight_prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "function:llm_integration.py:create_anomaly_explanation_prompt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "class:llm_integration.py:OllamaClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "class:llm_integration.py:FinancialAnalysisLLM",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "function:llm_integration.py:create_financial_summary_prompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "function:llm_integration.py:create_category_insight_prompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:llm_integration.py",
+      "target": "function:llm_integration.py:create_anomaly_explanation_prompt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:llm_integration.py:OllamaClient",
+      "target": "function:llm_integration.py:OllamaClient.is_available",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "class:llm_integration.py:OllamaClient",
+      "target": "function:llm_integration.py:OllamaClient.generate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "class:llm_integration.py:FinancialAnalysisLLM",
+      "target": "class:llm_integration.py:OllamaClient",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "class:llm_integration.py:FinancialAnalysisLLM",
+      "target": "function:llm_integration.py:create_financial_summary_prompt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:llm_integration.py:FinancialAnalysisLLM",
+      "target": "function:llm_integration.py:create_category_insight_prompt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "class:llm_integration.py:FinancialAnalysisLLM",
+      "target": "function:llm_integration.py:create_anomaly_explanation_prompt",
+      "type": "calls",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_spending_by_category_pie",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_spending_by_category_bar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_spending_over_time",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_income_vs_expenses",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_anomaly_timeline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_weekly_summary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_monthly_summary_table",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_category_trend",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_spending_by_category_pie",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_spending_by_category_bar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_spending_over_time",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_income_vs_expenses",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_anomaly_timeline",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_weekly_summary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_monthly_summary_table",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:visualizations.py",
+      "target": "function:visualizations.py:create_category_trend",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "document:ARTICLE.md",
+      "target": "file:app.py",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "config:requirements.txt",
+      "target": "file:app.py",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:presentation",
+      "name": "Presentation Layer",
+      "description": "Streamlit UI entry point and Plotly visualization builders that render financial insights, charts, and anomaly timelines to the user.",
+      "nodeIds": [
+        "file:app.py",
+        "file:visualizations.py"
+      ]
+    },
+    {
+      "id": "layer:analytics",
+      "name": "Analytics & ML Layer",
+      "description": "Core machine-learning services implementing the hybrid transaction classifier, Isolation Forest anomaly detector, and the CSV preprocessing pipeline that extracts features for model input.",
+      "nodeIds": [
+        "file:ml_models.py",
+        "file:preprocessing.py"
+      ]
+    },
+    {
+      "id": "layer:llm-integration",
+      "name": "LLM Integration Layer",
+      "description": "HTTP client adapter for the local Ollama LLM including streaming support, prompt-engineering helpers, and the FinancialAnalysisLLM facade that produces natural language spending insights.",
+      "nodeIds": [
+        "file:llm_integration.py"
+      ]
+    },
+    {
+      "id": "layer:config",
+      "name": "Configuration Layer",
+      "description": "Shared application configuration consumed by all other layers, covering Ollama connection settings, spending category keyword lists, anomaly thresholds, and the Python dependency manifest.",
+      "nodeIds": [
+        "file:config.py",
+        "config:requirements.txt",
+        "file:.understand-anything/.understandignore"
+      ]
+    },
+    {
+      "id": "layer:data",
+      "name": "Sample Data Layer",
+      "description": "Representative bank statement CSV fixtures in two different column formats, used to exercise the app's auto-detection pipeline and anomaly detection logic.",
+      "nodeIds": [
+        "table:sample_data/sample_bank_format2.csv:transactions",
+        "table:sample_data/sample_bank_statement.csv:transactions"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation",
+      "description": "Project documentation including the in-depth technical build article covering the data pipeline, Isolation Forest design, and Ollama integration, plus the project README.",
+      "nodeIds": [
+        "document:ARTICLE.md",
+        "document:README.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Technical Architecture Guide",
+      "description": "ARTICLE.md is the primary documentation for this project — a comprehensive technical article that walks through every major design decision, from the CSV preprocessing pipeline to the Isolation Forest anomaly detector to the local LLM integration via Ollama. Reading it first gives you the mental model you need to make sense of each source file. Think of it as the architect's blueprint before you enter the building.",
+      "nodeIds": [
+        "document:ARTICLE.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Dependency Manifest",
+      "description": "requirements.txt pins the seven runtime libraries the entire project depends on: Streamlit for the UI, pandas and numpy for data wrangling, scikit-learn for the Isolation Forest ML model, Plotly for interactive charts, requests for HTTP calls to Ollama, and python-dateutil for robust date parsing. The small, deliberate dependency list reflects the project's philosophy of doing as much as possible with battle-tested, privacy-safe local libraries rather than cloud services.",
+      "nodeIds": [
+        "config:requirements.txt"
+      ],
+      "languageLesson": "Python requirements.txt pins exact versions (e.g. streamlit==1.28.0) to guarantee reproducible installs across machines. Use 'pip install -r requirements.txt' to recreate the environment. For development, consider a virtual environment (venv or conda) so these pins do not conflict with other projects."
+    },
+    {
+      "order": 3,
+      "title": "Shared Configuration",
+      "description": "config.py is the single source of truth that all other modules import — it has the highest fan-in in the graph (tied with app.py at 4 incoming edges). It centralizes Ollama connection settings, the keyword lists that drive transaction categorization (e.g. 'netflix', 'spotify' map to Entertainment), anomaly detection thresholds, and Plotly color constants. Changing a category keyword or tuning an anomaly sensitivity threshold happens here once, and every module picks it up automatically.",
+      "nodeIds": [
+        "file:config.py"
+      ],
+      "languageLesson": "Python modules used as configuration singletons are a lightweight alternative to environment variables or YAML files. Because Python caches module imports, every file that does 'import config' gets the same object in memory — there is no risk of two modules reading divergent config state."
+    },
+    {
+      "order": 4,
+      "title": "Sample Bank Data Formats",
+      "description": "The two CSV fixtures in sample_data/ represent two real-world bank export formats with different column names and layouts. The primary statement has 73 transactions spanning three months, including deliberately planted anomalous entries. The alternative format uses a different column ordering (Transaction Date, Payee, Debit, Credit) to exercise the auto-detection logic. Understanding these inputs makes the preprocessing pipeline that follows immediately concrete.",
+      "nodeIds": [
+        "table:sample_data/sample_bank_statement.csv:transactions",
+        "table:sample_data/sample_bank_format2.csv:transactions"
+      ],
+      "languageLesson": "Real-world CSV exports from different banks rarely share the same column names or date formats. Robust financial tooling must handle this variance programmatically rather than requiring users to manually rename columns — a key design motivation for the auto-detection approach in preprocessing.py."
+    },
+    {
+      "order": 5,
+      "title": "CSV Preprocessing Pipeline",
+      "description": "preprocessing.py solves the hardest data-ingestion problem in the project: making sense of CSV files from different banks without requiring the user to configure anything. It probes column names with heuristics drawn from config.py's mappings, normalizes everything to a standard schema (date, description, amount, type), then engineers temporal features (day-of-week, week-of-month) and amount-based features that the ML models in the next step rely on. This module is the entry point for every analysis — without clean, normalized data nothing downstream works.",
+      "nodeIds": [
+        "file:preprocessing.py"
+      ],
+      "languageLesson": "Feature engineering for tabular ML in pandas typically combines .dt accessors for temporal features (df['date'].dt.dayofweek) with vectorized arithmetic for amount features. Extracting these features in a dedicated preprocessing step — rather than inside the model — keeps the ML code clean and makes the features easy to inspect and debug."
+    },
+    {
+      "order": 6,
+      "title": "ML Classification & Anomaly Detection",
+      "description": "ml_models.py is the analytical core of the application. It implements a hybrid transaction classifier that first tries rule-based keyword matching (fast and interpretable) and falls back to pattern matching for transactions that do not fit any keyword from config.py. On top of classification, it runs an ensemble anomaly detector that combines scikit-learn's Isolation Forest (good at high-dimensional outliers) with a statistical Z-score check (good at simple magnitude outliers), flagging any transaction that either method considers unusual. The convenience aggregation functions here are called directly by app.py to power every chart and insight.",
+      "nodeIds": [
+        "file:ml_models.py"
+      ],
+      "languageLesson": "Isolation Forest is an unsupervised anomaly detection algorithm that isolates observations by randomly partitioning feature space. Anomalies are isolated in fewer splits than normal points, giving them a lower anomaly score. Combining it with Z-score creates an ensemble: Isolation Forest catches multidimensional behavioral outliers while Z-score catches simple magnitude spikes — together they reduce both false positives and false negatives."
+    },
+    {
+      "order": 7,
+      "title": "Local LLM Integration",
+      "description": "llm_integration.py wraps the local Ollama HTTP API to generate natural-language explanations of spending patterns and anomalies — entirely on the user's machine, with no data leaving the device. It provides a streaming-capable HTTP client, prompt-engineering helpers that inject structured financial summaries into carefully designed prompts, and a high-level FinancialAnalysisLLM facade that app.py calls with simple method signatures. The facade pattern means app.py never has to think about HTTP, streaming buffers, or prompt templates.",
+      "nodeIds": [
+        "file:llm_integration.py"
+      ],
+      "languageLesson": "The facade design pattern wraps a complex subsystem (HTTP client + prompt engineering + streaming) behind a simple interface (FinancialAnalysisLLM.summarize_spending(), .explain_anomaly()). This is especially valuable when the underlying complexity is likely to change — for example, swapping Ollama for a different local LLM only requires updating the facade, not every call site in app.py."
+    },
+    {
+      "order": 8,
+      "title": "Interactive Visualizations",
+      "description": "visualizations.py builds every interactive Plotly figure the UI displays: a category-breakdown donut chart, time-series spending trends, an income-vs-expense bar comparison, an anomaly timeline that highlights flagged transactions, and a weekly spending heatmap. Each function accepts a normalized pandas DataFrame and returns a Plotly Figure object, keeping the visualization logic completely decoupled from both the ML computation and the Streamlit rendering. Color constants come from config.py, ensuring visual consistency across all charts.",
+      "nodeIds": [
+        "file:visualizations.py"
+      ],
+      "languageLesson": "Plotly Express and Plotly Graph Objects both return figure objects that Streamlit renders with st.plotly_chart(). Keeping figure construction in a separate module makes it trivial to unit-test chart outputs (inspect .data and .layout attributes) and swap chart types without touching the UI logic in app.py."
+    },
+    {
+      "order": 9,
+      "title": "Application Entry Point",
+      "description": "app.py is the orchestration hub — it has the highest fan-out in the graph (5 imports) because it is the only file that wires all other modules together. It builds the Streamlit page layout, handles CSV file upload, calls preprocessing.py to normalize the data, dispatches to ml_models.py for classification and anomaly detection, passes results to visualizations.py to build charts, and streams LLM explanations from llm_integration.py directly into the UI. Reading app.py after understanding each module gives you a clear picture of how the full data flow works end-to-end.",
+      "nodeIds": [
+        "file:app.py"
+      ],
+      "languageLesson": "Streamlit's execution model reruns the entire app.py script top-to-bottom on every user interaction. This means expensive operations like ML model fitting should be wrapped in st.cache_data or st.cache_resource so they are only computed once per uploaded file, not on every widget change. The session_state API persists data across reruns for multi-step workflows."
+    }
+  ]
+}

@@ -1,0 +1,705 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "a8106daa230e79d82b02aa2e7737ef7f669ad0bf",
+  "generatedAt": "2026-06-01T00:46:39.422Z",
+  "files": {
+    ".understand-anything/.understandignore": {
+      "filePath": ".understand-anything/.understandignore",
+      "contentHash": "882d49a3f6397d5697ab1118f7530f6442fa49fc0242493a3e8c769adb9263ea",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    "app.py": {
+      "filePath": "app.py",
+      "contentHash": "9effc50bdef4783b5f6f9c1e1c9b629c5b115f8e129494fbaaf156c2ff9fea22",
+      "functions": [
+        {
+          "name": "init_session_state",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "render_header",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "render_sidebar",
+          "params": [],
+          "exported": true,
+          "lineCount": 45
+        },
+        {
+          "name": "render_upload_section",
+          "params": [],
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "render_metrics",
+          "params": [
+            "df"
+          ],
+          "exported": true,
+          "lineCount": 31
+        },
+        {
+          "name": "render_visualizations",
+          "params": [
+            "df"
+          ],
+          "exported": true,
+          "lineCount": 79
+        },
+        {
+          "name": "render_ai_insights",
+          "params": [
+            "df"
+          ],
+          "exported": true,
+          "lineCount": 64
+        },
+        {
+          "name": "render_data_explorer",
+          "params": [
+            "df"
+          ],
+          "exported": true,
+          "lineCount": 51
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 49
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "streamlit",
+          "specifiers": [
+            "st"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "io",
+          "specifiers": [
+            "StringIO"
+          ]
+        },
+        {
+          "source": "preprocessing",
+          "specifiers": [
+            "preprocess_pipeline",
+            "detect_column_mapping"
+          ]
+        },
+        {
+          "source": "ml_models",
+          "specifiers": [
+            "analyze_transactions",
+            "get_category_summary",
+            "get_anomaly_summary"
+          ]
+        },
+        {
+          "source": "visualizations",
+          "specifiers": [
+            "create_spending_by_category_pie",
+            "create_spending_by_category_bar",
+            "create_spending_over_time",
+            "create_income_vs_expenses",
+            "create_anomaly_timeline",
+            "create_weekly_summary",
+            "create_monthly_summary_table",
+            "create_category_trend"
+          ]
+        },
+        {
+          "source": "llm_integration",
+          "specifiers": [
+            "FinancialAnalysisLLM"
+          ]
+        },
+        {
+          "source": "config",
+          "specifiers": [
+            "OLLAMA_MODEL"
+          ]
+        }
+      ],
+      "exports": [
+        "init_session_state",
+        "render_header",
+        "render_sidebar",
+        "render_upload_section",
+        "render_metrics",
+        "render_visualizations",
+        "render_ai_insights",
+        "render_data_explorer",
+        "main"
+      ],
+      "totalLines": 467,
+      "hasStructuralAnalysis": true
+    },
+    "ARTICLE.md": {
+      "filePath": "ARTICLE.md",
+      "contentHash": "28983e0e3a72038d442fd141ca8cd807fcc46c78e48c6bc4a7300f093dc9bedf",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 300,
+      "hasStructuralAnalysis": true
+    },
+    "config.py": {
+      "filePath": "config.py",
+      "contentHash": "9b67a9cacf370ae695dcfae629be15d727cbeec08c92a1d9ce1b726e731b32e3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "llm_integration.py": {
+      "filePath": "llm_integration.py",
+      "contentHash": "5fa34d16e3fc043ca5667fd580a9f3930b954b5007f2eb0b2db823ee3b34d1ac",
+      "functions": [
+        {
+          "name": "create_financial_summary_prompt",
+          "params": [
+            "df",
+            "analysis_summary"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 58
+        },
+        {
+          "name": "create_category_insight_prompt",
+          "params": [
+            "df",
+            "category"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 39
+        },
+        {
+          "name": "create_anomaly_explanation_prompt",
+          "params": [
+            "transaction"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 27
+        }
+      ],
+      "classes": [
+        {
+          "name": "OllamaClient",
+          "methods": [
+            "__init__",
+            "is_available",
+            "get_available_models",
+            "generate",
+            "generate_sync"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 98
+        },
+        {
+          "name": "FinancialAnalysisLLM",
+          "methods": [
+            "__init__",
+            "is_available",
+            "get_overall_insights",
+            "get_category_insights",
+            "explain_anomaly",
+            "ask_question"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 50
+        }
+      ],
+      "imports": [
+        {
+          "source": "requests",
+          "specifiers": [
+            "requests"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Generator",
+            "Dict",
+            "Any",
+            "Optional"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "config",
+          "specifiers": [
+            "OLLAMA_BASE_URL",
+            "OLLAMA_MODEL"
+          ]
+        }
+      ],
+      "exports": [
+        "OllamaClient",
+        "create_financial_summary_prompt",
+        "create_category_insight_prompt",
+        "create_anomaly_explanation_prompt",
+        "FinancialAnalysisLLM"
+      ],
+      "totalLines": 318,
+      "hasStructuralAnalysis": true
+    },
+    "ml_models.py": {
+      "filePath": "ml_models.py",
+      "contentHash": "d1b68b5488fbb20a801d9f8e9942852705f98557b84bca4646eeb3a67cbf3473",
+      "functions": [
+        {
+          "name": "analyze_transactions",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "get_category_summary",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "get_anomaly_summary",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 13
+        }
+      ],
+      "classes": [
+        {
+          "name": "TransactionClassifier",
+          "methods": [
+            "__init__",
+            "_compile_patterns",
+            "classify_single",
+            "classify_batch"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 69
+        },
+        {
+          "name": "AnomalyDetector",
+          "methods": [
+            "__init__",
+            "_prepare_features",
+            "fit",
+            "detect"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 152
+        }
+      ],
+      "imports": [
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "sklearn.ensemble",
+          "specifiers": [
+            "IsolationForest"
+          ]
+        },
+        {
+          "source": "sklearn.preprocessing",
+          "specifiers": [
+            "StandardScaler"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Tuple",
+            "List",
+            "Dict"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "config",
+          "specifiers": [
+            "SPENDING_CATEGORIES",
+            "ANOMALY_CONTAMINATION",
+            "ANOMALY_ZSCORE_THRESHOLD"
+          ]
+        }
+      ],
+      "exports": [
+        "TransactionClassifier",
+        "AnomalyDetector",
+        "analyze_transactions",
+        "get_category_summary",
+        "get_anomaly_summary"
+      ],
+      "totalLines": 318,
+      "hasStructuralAnalysis": true
+    },
+    "preprocessing.py": {
+      "filePath": "preprocessing.py",
+      "contentHash": "9e39f877b7b63365166170584b2d4eb1c0120e5ce2b15e3d128fc81c4603c2c6",
+      "functions": [
+        {
+          "name": "detect_column_mapping",
+          "params": [
+            "df"
+          ],
+          "returnType": "Dict[str, str]",
+          "exported": true,
+          "lineCount": 38
+        },
+        {
+          "name": "_looks_like_dates",
+          "params": [
+            "series"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_parse_amount",
+          "params": [
+            "value"
+          ],
+          "returnType": "float",
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "normalize_transactions",
+          "params": [
+            "df",
+            "mapping"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 56
+        },
+        {
+          "name": "extract_features",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "preprocess_pipeline",
+          "params": [
+            "uploaded_file"
+          ],
+          "returnType": "Tuple[pd.DataFrame, Dict[str, str], str]",
+          "exported": true,
+          "lineCount": 40
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime"
+          ]
+        },
+        {
+          "source": "dateutil",
+          "specifiers": [
+            "date_parser"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Tuple",
+            "Dict",
+            "Optional",
+            "List"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        }
+      ],
+      "exports": [
+        "detect_column_mapping",
+        "_looks_like_dates",
+        "_parse_amount",
+        "normalize_transactions",
+        "extract_features",
+        "preprocess_pipeline"
+      ],
+      "totalLines": 263,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "requirements.txt": {
+      "filePath": "requirements.txt",
+      "contentHash": "07f379bdaf3f4ba4688f25326c321054e674183907e6771525e51b4d9c5b3df0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": false
+    },
+    "sample_data/sample_bank_format2.csv": {
+      "filePath": "sample_data/sample_bank_format2.csv",
+      "contentHash": "da67deca8a4c0d9ee2708153855f5ab2d08a262372c66dc070a69457f1ebc647",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 23,
+      "hasStructuralAnalysis": false
+    },
+    "sample_data/sample_bank_statement.csv": {
+      "filePath": "sample_data/sample_bank_statement.csv",
+      "contentHash": "15db85adc69cc63f9ac340f6ed3a5e196e87e58500786df3b73d1ea79b3c2b78",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 75,
+      "hasStructuralAnalysis": false
+    },
+    "visualizations.py": {
+      "filePath": "visualizations.py",
+      "contentHash": "c425c2f4b410e7053a61f2f9b5d7668c5145253630f109454cf94c313ed7ae67",
+      "functions": [
+        {
+          "name": "create_spending_by_category_pie",
+          "params": [
+            "df"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 40
+        },
+        {
+          "name": "create_spending_by_category_bar",
+          "params": [
+            "df"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 35
+        },
+        {
+          "name": "create_spending_over_time",
+          "params": [
+            "df",
+            "period"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 59
+        },
+        {
+          "name": "create_income_vs_expenses",
+          "params": [
+            "df",
+            "period"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 67
+        },
+        {
+          "name": "create_anomaly_timeline",
+          "params": [
+            "df"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 62
+        },
+        {
+          "name": "create_weekly_summary",
+          "params": [
+            "df"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 40
+        },
+        {
+          "name": "create_monthly_summary_table",
+          "params": [
+            "df"
+          ],
+          "returnType": "pd.DataFrame",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "create_category_trend",
+          "params": [
+            "df",
+            "category"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "_empty_chart",
+          "params": [
+            "message"
+          ],
+          "returnType": "go.Figure",
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "plotly.express",
+          "specifiers": [
+            "px"
+          ]
+        },
+        {
+          "source": "plotly.graph_objects",
+          "specifiers": [
+            "go"
+          ]
+        },
+        {
+          "source": "plotly.subplots",
+          "specifiers": [
+            "make_subplots"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Optional"
+          ]
+        },
+        {
+          "source": "config",
+          "specifiers": [
+            "CHART_HEIGHT"
+          ]
+        }
+      ],
+      "exports": [
+        "create_spending_by_category_pie",
+        "create_spending_by_category_bar",
+        "create_spending_over_time",
+        "create_income_vs_expenses",
+        "create_anomaly_timeline",
+        "create_weekly_summary",
+        "create_monthly_summary_table",
+        "create_category_trend",
+        "_empty_chart"
+      ],
+      "totalLines": 448,
+      "hasStructuralAnalysis": true
+    }
+  }
+}
